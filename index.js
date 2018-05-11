@@ -15,6 +15,7 @@ module.exports = function(source) {
 
   const opts = loaderUtils.getOptions(this)
   const release = opts ? opts.release : false
+  const cargoweb = opts ? opts.cargoweb : false
 
   const buildPath = opts ? opts.path : undefined
   if (buildPath === undefined) {
@@ -35,7 +36,7 @@ module.exports = function(source) {
     release ? 'release' : 'debug'
   )
   const outFile = path.join(outDir, `${packageName}.js`)
-  const cmd = `cargo build --target=${rustTarget}${release ? ' --release' : ''}`
+  const cmd = `cargo${cargoweb ? ' web' : ''} build --target=${rustTarget}${release ? ' --release' : ''}`
   const self = this
   child_process.exec(cmd, { cwd: this.context }, function(
     error,
